@@ -84,6 +84,7 @@ class ReceiptTest extends TestCase
 	{
 		$Receipt = $this->getMockBuilder('TDD\Receipt')
 			->setMethods(['tax', 'subtotal'])
+			->setConstructorArgs([$this->Formatter])
 			->getMock();
 
 		$Receipt->method('subtotal')
