@@ -16,7 +16,7 @@ class Receipt
 	 *
 	 * @return number
 	 */
-	public function total(array $items = [], $coupon)
+	public function subtotal(array $items = [], $coupon)
 	{
 		if($coupon > 1.00)
 		{
@@ -54,7 +54,7 @@ class Receipt
 	 */
 	public function postTaxTotal($items, $tax, $coupon)
 	{
-		$subtotal = $this->total($items, $coupon);
+		$subtotal = $this->subtotal($items, $coupon);
 
 		$postTaxTotal = $subtotal + $this->tax($subtotal, $tax);
 

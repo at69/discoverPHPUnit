@@ -21,10 +21,10 @@ class ReceiptTest extends TestCase
 	/**
 	 * Ch01
 	 */
-//	public function testTotal()
+//	public function testSubtotal()
 //	{
 //		$input = [0, 2, 5, 8];
-//		$output = $this->Receipt->total($input);
+//		$output = $this->Receipt->subtotal($input);
 //
 //		$this->assertEquals(
 //			15,
@@ -46,11 +46,11 @@ class ReceiptTest extends TestCase
 		);
 	}
 
-	public function testTotalWithDummyCoupon()
+	public function testSubtotalWithDummyCoupon()
 	{
 		$input = [0, 2, 5, 8];
 		$coupon = null;
-		$output = $this->Receipt->total($input, $coupon);
+		$output = $this->Receipt->subtotal($input, $coupon);
 
 		$this->assertEquals(
 			15,
@@ -59,11 +59,11 @@ class ReceiptTest extends TestCase
 		);
 	}
 
-	public function testTotalWithCoupon()
+	public function testSubtotalWithCoupon()
 	{
 		$input = [0, 2, 5, 8];
 		$coupon = 0.20;
-		$output = $this->Receipt->total($input, $coupon);
+		$output = $this->Receipt->subtotal($input, $coupon);
 
 		$this->assertEquals(
 			12,
@@ -75,10 +75,10 @@ class ReceiptTest extends TestCase
 	public function testPostTaxTotalWithStub()
 	{
 		$Receipt = $this->getMockBuilder('TDD\Receipt')
-			->setMethods(['tax', 'total'])
+			->setMethods(['tax', 'subtotal'])
 			->getMock();
 
-		$Receipt->method('total')
+		$Receipt->method('subtotal')
 			->will($this->returnValue(10.00));
 
 		$Receipt->method('tax')
@@ -96,11 +96,11 @@ class ReceiptTest extends TestCase
 		$coupon = null;
 
 		$Receipt = $this->getMockBuilder('TDD\Receipt')
-		                ->setMethods(['tax', 'total'])
+		                ->setMethods(['tax', 'subtotal'])
 		                ->getMock();
 
 		$Receipt->expects($this->once())
-				->method('total')
+				->method('subtotal')
 				->with($items, $coupon)
 		        ->will($this->returnValue(10.00));
 
@@ -115,14 +115,14 @@ class ReceiptTest extends TestCase
 	}
 
 	/**
-	 * @dataProvider provideTotal
+	 * @dataProvider provideSubtotal
 	 * @param array $items
 	 * @param int|float $expected
 	 */
-	public function testTotalWithDummyCouponAndDataProvider($items, $expected)
+	public function testSubtotalWithDummyCouponAndDataProvider($items, $expected)
 	{
 		$coupon = null;
-		$output = $this->Receipt->total($items, $coupon);
+		$output = $this->Receipt->subtotal($items, $coupon);
 
 		$this->assertEquals(
 			$expected,
@@ -131,7 +131,7 @@ class ReceiptTest extends TestCase
 		);
 	}
 
-	public function provideTotal()
+	public function provideSubtotal()
 	{
 		return [
 			'ints totaling 16' => [[1, 2, 5, 8], 16],
@@ -140,13 +140,13 @@ class ReceiptTest extends TestCase
 		];
 	}
 
-	public function testTotalException()
+	public function testSubtotalException()
 	{
 		$input = [0, 2, 5, 8];
 		$coupon = 1.20;
 
 		$this->expectException('BadMethodCallException');
-		$this->Receipt->total($input, $coupon);
+		$this->Receipt->subtotal($input, $coupon);
 	}
 
 	/**
